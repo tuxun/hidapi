@@ -5,6 +5,7 @@ CONFIG += staticlib
 CONFIG -= app_bundle
 CONFIG -= qt
 
-SOURCES +=
+SOURCES += \
+    windows/hid.c
 HEADERS += \
     hidapi/hidapi.h
