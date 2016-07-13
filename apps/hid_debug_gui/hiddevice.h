@@ -2,8 +2,8 @@
 #define HIDDEVICE_H
 #include "../../signal11/hidapi/hidapi.h"
 #include <QString>
-#define MAX_STR 512
-
+#define __MNC_MAX_STR 512
+#include <iostream>
 class Hiddevice
 {
 public:
@@ -11,7 +11,30 @@ public:
     QString get_device_list(void);
     bool device_connect(QString vid,QString pid);
     bool device_is_connected(void);
+    int teststatus(void);
+    char* read1s();
+    bool machinestate;
+    unsigned char *buffer;
+    bool  try_device(void);
 
+    void softstop(); //0x53+0x01
+
+    bool connect_Hiddevice(const char *path);
+
+    void hardstop(); //0x53+0x00
+
+    void teststop(); //0x53+0x03
+    void set_pwm();
+    hid_device *connected_device=NULL;
+
+
+    unsigned short connected_vendor_id;
+    /** Device Product ID */
+    unsigned short connected_product_id;
+    int testmove();
+private:
+    /*HID device to open*/
+    hid_device *minicut_device=NULL;
     QString device_list;
     QString device_pid;
     QString device_vid;

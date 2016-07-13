@@ -24,4 +24,5 @@ HEADERS  += mainwindow.h \
     hiddevice.h \
     ../../signal11/hidapi/hidapi.h
 
-FORMS    += mainwindow.ui
+FORMS    += \
+    mainwindow.ui
