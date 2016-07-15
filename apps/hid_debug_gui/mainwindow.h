@@ -36,6 +36,9 @@ Hiddevice *devlist;
 QPushButton *connect_bouton;
 QLineEdit *devpath;
 
+QTreeWidget *tree;
+
+
     void setupDock(QWidget *target);
     QIcon openIcon,newIcon ,gearIcon,saveAsIcon ,saveIcon,aproposIcon;
     QWidget* get_menuWidget(void);
@@ -43,6 +46,7 @@ QLineEdit *devpath;
 
 public slots:
     void connect_to();
+    void select_path(QTreeWidgetItem *item, int index);
 
 void chauffeplus();
 void chauffemoins();

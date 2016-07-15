@@ -4,11 +4,14 @@
 #include <QString>
 #define __MNC_MAX_STR 512
 #include <iostream>
+#include <QStringList>
 class Hiddevice
 {
 public:
     Hiddevice();
-    QString get_device_list(void);
+    QList<QStringList> get_device_list(void);
+    QString get_device_stringlist(void);
+
     bool device_connect(QString vid,QString pid);
     bool device_is_connected(void);
     int teststatus(void);

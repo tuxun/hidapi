@@ -9,14 +9,37 @@ MainWindow::MainWindow(QWidget *parent) :
     QVBoxLayout *hidinfo_layout=new QVBoxLayout();
 
     QHBoxLayout *connexion_layout=new QHBoxLayout();
-
     devlist=new Hiddevice();
     QGridLayout *hid_desc_layout=new QGridLayout();
   //  QLabel *hid_status=new QLabel(devlist->get_device_list());
-    QString buf=devlist->get_device_list();
-
+    QList<QStringList> buf=devlist->get_device_list();
 QTextEdit *textwidget= new QTextEdit();
-textwidget->setPlainText(buf);
+
+tree = new QTreeWidget();
+tree->setColumnCount(5);
+
+QList<QTreeWidgetItem *> items;
+int i,j=0;
+QTreeWidgetItem *t=new QTreeWidgetItem();
+
+     for (i=0;i<buf.size()/5;i+=1)
+{
+         items.append(new QTreeWidgetItem(buf.at(i*5)));//->addChild(new QTreeWidgetItem(buf.at(i+1)));
+     //    items.at(i)->addChild(new QTreeWidgetItem(buf.at(i*5+1)));
+       //  items.at(i)->addChild(new QTreeWidgetItem(buf.at(i*5+2)));
+       // items.at(i)->addChild(new QTreeWidgetItem(buf.at(i*5+1)));
+//items.at(i)->
+         items.at(i)->setText(1, buf.at(i*5+1).at(0));
+         items.at(i)->setText(2, buf.at(i*5+2).at(0));
+         items.at(i)->setText(3, buf.at(i*5+3).at(0));
+         items.at(i)->setText(4, buf.at(i*5+4).at(0));
+     }
+
+     tree->addTopLevelItems(items);
+
+//textwidget->setPlainText(buf.at(i));
+
+
 //textwidget.setParent(infowidget);
 //infowidget.show();
 devpath=new QLineEdit();
@@ -24,7 +47,8 @@ connect_bouton=new QPushButton("connexion");
 connexion_layout->addWidget(devpath);
 connexion_layout->addWidget(connect_bouton);
 
-    hid_desc_layout->addWidget(textwidget);
+//    hid_desc_layout->addWidget(textwidget);
+hid_desc_layout->addWidget(tree);
 
     hidinfo_layout->addLayout(connexion_layout);
     hidinfo_layout->addLayout(hid_desc_layout);
@@ -38,9 +62,6 @@ else if(devlist->connect_Hiddevice("\?\hid#vid_046d&pid_c52b&mi_00#7&1f45cerdfge
         statusBar()->showMessage("on est connected a une minicut!");
 else if(devlist->connect_Hiddevice("\?hid#vid_046d&pid_c050#6&3328bc17&0&0000"))
         statusBar()->showMessage("on est connected a une souris!");
-
-
-
 else
         statusBar()->showMessage("rien connecté ici!");
        //hid_set_nonblocking(connected_device, 1);
@@ -61,10 +82,6 @@ else
 
 
 //this->centralWidget()->setLayout(hid_desc_layout);
-
-
-
-
 
 connect(connect_bouton,SIGNAL(clicked()),this,SLOT(connect_to()));
 
@@ -101,7 +118,9 @@ connect(connect_bouton,SIGNAL(clicked()),this,SLOT(connect_to()));
         connect(this,SIGNAL(moveway_changed(move_way)),this,SLOT(setwhatrunbutton(move_way)));
 
 
-       // connect(ui->actionConnecter , SIGNAL(triggered()), this, SLOT(openmachinelist()));
+
+connect(this->tree,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(select_path(QTreeWidgetItem*,int)));
+                              // connect(ui->actionConnecter , SIGNAL(triggered()), this, SLOT(openmachinelist()));
 
 
 
@@ -111,7 +130,15 @@ connect(connect_bouton,SIGNAL(clicked()),this,SLOT(connect_to()));
 
 
 }
+void MainWindow::select_path(QTreeWidgetItem* item,int index)
+{
 
+//    printf ("clicked: %s\n",item->text(1));
+  //  statusBar()->showMessage(tr("bien cliqué:")+item->text(1));
+    devpath->setText(item->text(2));
+
+
+}
 
 
 void MainWindow::mw_hgmove()
