@@ -1,9 +1,11 @@
 #ifndef HIDDEVICE_H
 #define HIDDEVICE_H
 #include "../../signal11/hidapi/hidapi.h"
-#include <QString>
+//#include <QString>
 #define __MNC_MAX_STR 512
 #include <iostream>
+#include <stdlib.h>
+#include <stdio.h>
 #include <QStringList>
 class Hiddevice
 {
@@ -30,6 +32,7 @@ public:
     void set_pwm();
     hid_device *connected_device=NULL;
 
+   unsigned char* dumpDATA();
 
     unsigned short connected_vendor_id;
     /** Device Product ID */

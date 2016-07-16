@@ -9,7 +9,7 @@
 #include <hiddevice.h>
 #include <QLayout>
 #include <QMainWindow>
-
+#include <QTimer>
 namespace Ui {
 class MainWindow;
 }
@@ -25,6 +25,7 @@ public:
     ~MainWindow();
     move_way button_said;
     int actual_dest_temp;
+    QTimer *timer;
 
 signals:
     void temp_changed(int);
@@ -47,6 +48,7 @@ QTreeWidget *tree;
 public slots:
     void connect_to();
     void select_path(QTreeWidgetItem *item, int index);
+    void readHID();
 
 void chauffeplus();
 void chauffemoins();

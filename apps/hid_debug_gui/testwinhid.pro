@@ -12,13 +12,9 @@ CONFIG += warn_off
 TARGET = testwinhid
 TEMPLATE = app
 
-LIBS += -L$$PWD/./
-
-LIBS += -lhid -lsetupapi
 SOURCES += main.cpp\
         mainwindow.cpp \
-    hiddevice.cpp \
-    ../../signal11/windows/hid.c
+    hiddevice.cpp
 
 HEADERS  += mainwindow.h \
     hiddevice.h \
@@ -26,3 +22,15 @@ HEADERS  += mainwindow.h \
 
 FORMS    += \
     mainwindow.ui
+unix {
+#sudo apt-get install libudev-dev
+LIBS += -L/usr/lib/i386-linux-gnu/ -ludev
+SOURCES += ../../signal11/linux/hid.c
+
+}
+win32 {
+LIBS += -L$$PWD/./
+LIBS += -lhid
+LIBS +=-lsetupapi
+SOURCES += ../../signal11/windows/hid.c
+}
